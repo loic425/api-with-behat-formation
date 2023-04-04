@@ -22,7 +22,7 @@ Feature: Books validation
 ---
 
 ```php {all|7}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -66,7 +66,7 @@ transition: fade
 ---
 
 ```php {7|8|9}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -88,7 +88,7 @@ transition: fade
 ---
 
 ```php {9|11}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -108,7 +108,7 @@ final class ManagingBooksContext implements Context
 ---
 
 ```php {11}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -153,7 +153,7 @@ transition: fade
 ---
 
 ```php {7}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -172,7 +172,7 @@ final class ManagingBooksContext implements Context
 ---
 
 ```php {7}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -214,7 +214,7 @@ Feature: Books validation
 ---
 
 ```php {all|7|8|10|11|12}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {

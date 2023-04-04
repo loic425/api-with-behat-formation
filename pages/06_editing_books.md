@@ -49,7 +49,7 @@ transition: fade
 ---
 
 ```php {7-11}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -68,7 +68,7 @@ final class ManagingBooksContext implements Context
 ---
 
 ```php {13-17|13|14|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -205,7 +205,7 @@ transition: fade
 
 
 ```php {7-11}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -224,7 +224,7 @@ final class ManagingBooksContext implements Context
 ---
 
 ```php {13-17|13|14|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -277,7 +277,7 @@ transition: fade
 ---
 
 ```php {7-11}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -296,7 +296,7 @@ final class ManagingBooksContext implements Context
 ---
 
 ```php {13-17|13|14|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
@@ -347,7 +347,7 @@ transition: fade
 ---
 
 ```php {7-13|7|8}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {

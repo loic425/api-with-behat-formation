@@ -10,7 +10,7 @@ Feature: Adding a new book
     Background:
         Given I am logged in as an administrator
 
-    @ui
+    @ui @api
     Scenario: Adding a new book
         Given I want to create a new book
         When I specify its name as "Shinning"
@@ -21,91 +21,20 @@ Feature: Adding a new book
 ```
 
 ---
-transition: fade
----
 
-```php {15}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+```php {all|7|8|10}
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
-    public function __construct(
-        private IndexPage $indexPage,
-    ) {
-    }
-
-    // [...]
-
-    #[Then('I should see the book :name in the list')]
-    public function iShouldSeeTheBookInTheList(string $name): void
-    {
-        Assert::true($this->indexPage->isSingleResourceOnPage(['name' => $name]));
-    }
-}
-```
-
----
-transition: fade
----
-
-```php {all}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    public function __construct(
-        private IndexPage $indexPage,
-    ) {
-    }
-
-    // [...]
-}
-```
-
----
-
-```php {all|7|13|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    public function __construct(
-        private IndexPage $indexPage,
-        private CreatePage $createPage,
-    ) {
-    }
-    
     // [...]
 
     #[Given('I want to create a new book')]
-    public function iWantToCreateANewBook(): void
+    public function iWantToCreateANewBook()
     {
-        $this->createPage->open();
-    }
-    
-    // [...]
-}
-```
-
----
-
-# Create book page
-
-```php {all|7|5,7|9|11}
-// tests/Behat/Page/Backend/Book/CreatePage.php
-
-namespace App\Tests\Behat\Page\Backend\Book;
-
-use Monofony\Bridge\Behat\Crud\AbstractCreatePage;
-
-final class CreatePage extends AbstractCreatePage
-{
-    public function getRouteName(): string
-    {
-        return 'app_backend_book_create';
+        $this->client->buildCreateRequest(Resources::BOOKS);
     }
 }
-
 ```
 
 ---
@@ -120,7 +49,7 @@ Feature: Adding a new book
     Background:
         Given I am logged in as an administrator
 
-    @ui
+    @ui @api
     Scenario: Adding a new book
         Given I want to create a new book
         When I specify its name as "Shinning"
@@ -134,124 +63,23 @@ Feature: Adding a new book
 transition: fade
 ---
 
-```php {10}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+```php {all|7|8|10-12}
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
     // [...]
-
-    #[Given('I want to create a new book')]
-    public function iWantToCreateANewBook(): void
-    {
-        $this->createPage->open();
-    }
-    
-    // [...]
-}
-```
-
----
-
-```php {13-17|13|14|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    // [...]
-
-    #[Given('I want to create a new book')]
-    public function iWantToCreateANewBook(): void
-    {
-        $this->createPage->open();
-    }
 
     #[When('I specify its name as :name')]
-    public function iSpecifyItsNameAs(string $name): void
+    public function iSpecifyItsNameAs(?string $name = null): void
     {
-        $this->createPage->nameIt($name);
+        if (null !== $name) {
+            $this->client->addRequestData('name', $name);
+        }
     }
     
     // [...]
 }
-```
-
----
-transition: fade
----
-
-```php {11}
-// tests/Behat/Page/Backend/Book/CreatePage.php
-
-namespace App\Tests\Behat\Page\Backend\Book;
-
-use Monofony\Bridge\Behat\Crud\AbstractCreatePage;
-
-final class CreatePage extends AbstractCreatePage
-{
-    public function getRouteName(): string
-    {
-        return 'app_backend_book_create';
-    }
-}
-
-```
-
----
-transition: fade
----
-
-```php {14-17|14|16}
-// tests/Behat/Page/Backend/Book/CreatePage.php
-
-namespace App\Tests\Behat\Page\Backend\Book;
-
-use Monofony\Bridge\Behat\Crud\AbstractCreatePage;
-
-final class CreatePage extends AbstractCreatePage
-{
-    public function getRouteName(): string
-    {
-        return 'app_backend_book_create';
-    }
-    
-    public function nameIt(string $name): void
-    {
-        $this->getElement('name')->setValue($name);
-    }
-}
-
-```
-
----
-
-```php {19-24|19|22}
-// tests/Behat/Page/Backend/Book/CreatePage.php
-
-namespace App\Tests\Behat\Page\Backend\Book;
-
-use Monofony\Bridge\Behat\Crud\AbstractCreatePage;
-
-final class CreatePage extends AbstractCreatePage
-{
-    public function getRouteName(): string
-    {
-        return 'app_backend_book_create';
-    }
-    
-    public function nameIt(string $name): void
-    {
-        $this->getElement('name')->setValue($name);
-    }
-    
-    protected function getDefinedElements(): array
-    {
-        return [
-            'name' => '#book_name',
-        ];
-    }
-}
-
 ```
 
 ---
@@ -277,45 +105,18 @@ Feature: Adding a new book
 ```
 
 ---
-transition: fade
----
 
-```php {10}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+```php {all|7|8|10}
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
     // [...]
 
-    #[When('I specify its name as :name')]
-    public function iSpecifyItsNameAs(string $name): void
-    {
-        $this->createPage->nameIt($name);
-    }
-    
-    // [...]
-}
-```
-
----
-
-```php {13-17|13|14|16}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    // [...]
-
-    #[When('I specify its name as :name')]
-    public function iSpecifyItsNameAs(string $name): void
-    {
-        $this->createPage->nameIt($name);
-    }
-    
     #[When('I add it')]
     public function iAddIt(): void
     {
-        $this->createPage->create();
+        $this->client->create();
     }
     
     // [...]
@@ -346,21 +147,20 @@ Feature: Adding a new book
 
 ---
 
-```php {all|10|12|14}
-// tests/Behat/Context/Ui/Backend/NotificationContext.php
+```php {all|7|8|10-13}
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
-final class NotificationContext implements Context
+final class ManagingBooksContext implements Context
 {
-    public function __construct(private NotificationCheckerInterface $notificationChecker)
+    // [...]
+    
+    #[Then('I should be notified that it has been successfully created')]
+    public function iShouldBeNotifiedThatItHasBeenSuccessfullyCreated(): void
     {
-    }
-
-    /**
-     * @Then I should be notified that it has been successfully created
-     */
-    public function iShouldBeNotifiedItHasBeenSuccessfullyCreated(): void
-    {
-        $this->notificationChecker->checkNotification('has been successfully created.', NotificationType::success());
+        Assert::true(
+            $this->responseChecker->isCreationSuccessful($this->client->getLastResponse()),
+            'Book could not be created',
+        );
     }
     
     // [...]
@@ -390,47 +190,22 @@ Feature: Adding a new book
 ```
 
 ---
-transition: fade
----
 
-```php {10}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
+```php {all|7|8}
+// tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
 {
    // [...]
     
-    #[When('I add it')]
-    public function iAddIt(): void
+    #[Then('I should see the book :name in the list')]
+    #[Then('the book :name should appear in the list')]
+    public function iShouldSeeTheBookInTheList(string $name): void
     {
-        $this->createPage->create();
-    }
-    
-    // [...]
-}
-```
-
----
-
-```php {13-19|13|14|16|18}
-// tests/Behat/Context/Ui/Backend/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    // [...]
-    
-    #[When('I add it')]
-    public function iAddIt(): void
-    {
-        $this->createPage->create();
-    }
-    
-    #[Then('the book :name should appear in the list')] 
-    public function theBookShouldAppearInTheList(string $name): void
-    {
-        $this->indexPage->open();
-
-        Assert::true($this->indexPage->isSingleResourceOnPage(['name' => $name]));
+        Assert::true(
+            $this->responseChecker->hasItemWithValue($this->client->index(Resources::BOOKS), 'name', $name),
+            sprintf('Book with name %s does not exist', $name),
+        );
     }
     
     // [...]
