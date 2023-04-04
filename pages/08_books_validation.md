@@ -31,7 +31,7 @@ final class ManagingBooksContext implements Context
     #[Given('I want to create a new book')]
     public function iWantToCreateANewBook(): void
     {
-        $this->createPage->open();
+        $this->client->buildCreateRequest(Resources::BOOKS);
     }
     
     // [...]
@@ -65,7 +65,7 @@ Feature: Books validation
 transition: fade
 ---
 
-```php {7|8|9}
+```php {7|8|9|11-13}
 // tests/Behat/Context/Api/ManagingBooksContext.php
 
 final class ManagingBooksContext implements Context
@@ -76,49 +76,9 @@ final class ManagingBooksContext implements Context
     #[When('I do not specify any name')]
     public function iSpecifyItsNameAs(string $name): void
     {
-        $this->createPage->nameIt($name);
-    }
-    
-    // [...]
-}
-```
-
----
-transition: fade
----
-
-```php {9|11}
-// tests/Behat/Context/Api/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    // [...]
-
-    #[When('I specify its name as :name')]
-    #[When('I do not specify any name')]
-    public function iSpecifyItsNameAs(?string $name = null): void
-    {
-        $this->createPage->nameIt($name);
-    }
-    
-    // [...]
-}
-```
-
----
-
-```php {11}
-// tests/Behat/Context/Api/ManagingBooksContext.php
-
-final class ManagingBooksContext implements Context
-{
-    // [...]
-
-    #[When('I specify its name as :name')]
-    #[When('I do not specify any name')]
-    public function iSpecifyItsNameAs(?string $name = null): void
-    {
-        $this->createPage->nameIt($name ?? '');
+        if (null !== $name) {
+            $this->client->addRequestData('name', $name);
+        }
     }
     
     // [...]
@@ -162,7 +122,7 @@ final class ManagingBooksContext implements Context
     #[When('I add it')]
     public function iAddIt(): void
     {
-        $this->createPage->create();
+        $this->client->create();
     }
     
     // [...]
@@ -181,7 +141,7 @@ final class ManagingBooksContext implements Context
     #[When('I (try to) add it')]
     public function iAddIt(): void
     {
-        $this->createPage->create();
+        $this->client->create();
     }
     
     // [...]
@@ -223,9 +183,9 @@ final class ManagingBooksContext implements Context
     #[Then('I should be notified that :element is required')] 
     public function iShouldBeNotifiedThatElementIsRequired(string $element): void
     {
-        Assert::eq($this->createPage->getValidationMessage(
-            StringInflector::nameToCode($element)), 
-            'This value should not be blank.',
+        Assert::contains(
+            $this->responseChecker->getError($this->client->getLastResponse()),
+            sprintf('%s: This value should not be blank.', $element),
         );
     }
     
